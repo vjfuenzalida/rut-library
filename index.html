@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>    
+    <script src="rutFormatter.js" charset="utf-8"></script>
+    <script src="rutValidator.js" charset="utf-8"></script>
+    <title>Document</title>
+</head>
+<body>
+    <label id="myLabel" hidden="true">inválido</label>
+    <input type="text" id="myInput" placeholder="RUT">
+    <button onclick="checkRUT()">Validate</button>
+    <button id="formatButton" onclick="toggleFormatting()">Disable Autoformatting</button>
+    <script>
+        let toggleFormatting = function() {
+            let attr = $("#myInput").attr("data-autoformat");
+            if (typeof attr !== typeof undefined && attr !== false) {
+                RutFormatter.disable("#myInput");
+                $("#formatButton").css("background-color", "green");
+                $("#formatButton").text("Enable Autoformatting");
+            } else {
+                RutFormatter.enable("#myInput");
+                $("#formatButton").css("background-color", "red");
+                $("#formatButton").text("Disable Autoformatting");
+            }            
+        }
+        let checkRUT = function() {
+            let value = $("#myInput").val();
+            let valid = RutValidator.validate(value);
+            if(valid) {
+                $("#myLabel").text("RUT válido");   
+                $("#myLabel").css("color", "green");
+            } else {
+                $("#myLabel").text("RUT inválido");
+                $("#myLabel").css("color", "red");
+            }
+            $("#myLabel").show();
+            setTimeout(function() {
+                $("#myLabel").hide();
+            }, 2000);
+        }
+        toggleFormatting();
+    </script>
+</body>
+</html>
